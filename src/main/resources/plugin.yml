@@ -3,3 +3,15 @@ version: '1.0-SNAPSHOT'
 main: me.wiceh.companies.Companies
 api-version: '1.20'
 authors: [ wIceh ]
+commands:
+  company:
+    aliases:
+      - azienda
+  cashregister:
+    aliases:
+      - cassa
+      - cash-register
+  annuncio:
+  admincompany:
+    aliases:
+      - adminazienda

@@ -41,6 +41,27 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>dev.triumphteam.gui</pattern>
+                            <shadedPattern>me.wiceh.gui</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -59,6 +80,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -67,6 +92,16 @@
             <artifactId>paper-api</artifactId>
             <version>1.20.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.wesjd</groupId>
+            <artifactId>anvilgui</artifactId>
+            <version>1.10.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.triumphteam</groupId>
+            <artifactId>triumph-gui</artifactId>
+            <version>3.1.7</version>
         </dependency>
     </dependencies>
 </project>

@@ -177,32 +177,12 @@ public class Utils {
         return result.toString();
     }
 
-    public static  void setFiller1(Inventory inventory) {
-        if (inventory.getSize() == 27) {
-            inventory.setItem(0, ItemUtils.getFiller());
-            inventory.setItem(1, ItemUtils.getFiller());
-            inventory.setItem(2, ItemUtils.getFiller());
-            inventory.setItem(3, ItemUtils.getFiller());
-            inventory.setItem(4, ItemUtils.getFiller());
-            inventory.setItem(5, ItemUtils.getFiller());
-            inventory.setItem(6, ItemUtils.getFiller());
-            inventory.setItem(7, ItemUtils.getFiller());
-            inventory.setItem(8, ItemUtils.getFiller());
-            inventory.setItem(9, ItemUtils.getFiller());
-            inventory.setItem(11, ItemUtils.getFiller());
-            inventory.setItem(13, ItemUtils.getFiller());
-            inventory.setItem(15, ItemUtils.getFiller());
-            inventory.setItem(17, ItemUtils.getFiller());
-            inventory.setItem(18, ItemUtils.getFiller());
-            inventory.setItem(19, ItemUtils.getFiller());
-            inventory.setItem(20, ItemUtils.getFiller());
-            inventory.setItem(21, ItemUtils.getFiller());
-            inventory.setItem(22, ItemUtils.getFiller());
-            inventory.setItem(23, ItemUtils.getFiller());
-            inventory.setItem(24, ItemUtils.getFiller());
-            inventory.setItem(25, ItemUtils.getFiller());
-            inventory.setItem(26, ItemUtils.getFiller());
-        }
+    public static boolean hasFifteenMinutesPassed(long start) {
+        long current = System.currentTimeMillis();
+
+        long fifteenMinutesInMillis = 15 * 60 * 1000;
+
+        return (current - start) >= fifteenMinutesInMillis;
     }
 
     public static void setFiller2(Inventory inventory) {

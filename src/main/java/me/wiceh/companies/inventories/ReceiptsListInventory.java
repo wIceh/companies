@@ -46,7 +46,7 @@ public class ReceiptsListInventory {
                 .name(text("§7Pagina §lSuccessiva"))
                 .model(10263);
 
-        gui.setItem(18, back.asGuiItem(action -> new CashRegisterInventory(plugin).open(player, company)));
+        gui.setItem(18, back.asGuiItem(action -> new CashRegisterInventory(plugin).open1(player, company)));
         gui.setItem(19, ItemBuilder.from(ItemUtils.getFiller()).asGuiItem());
         gui.setItem(20, ItemBuilder.from(ItemUtils.getFiller()).asGuiItem());
         gui.setItem(21, ItemBuilder.from(ItemUtils.getFiller()).asGuiItem());

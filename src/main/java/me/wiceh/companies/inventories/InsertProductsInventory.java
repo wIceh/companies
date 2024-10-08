@@ -37,10 +37,8 @@ public class InsertProductsInventory {
                     return Collections.emptyList();
                 })
                 .text("Prodotti")
-                .title("§fInserisci i prodotti")
-                .itemLeft(ItemUtils.getFiller())
-                .itemRight(ItemUtils.getFiller())
-                .itemOutput(ItemUtils.getOutputItem())
+                .title("Inserisci i prodotti")
+                .itemLeft(ItemUtils.getInvisibleItem())
                 .plugin(plugin)
                 .open(player);
     }

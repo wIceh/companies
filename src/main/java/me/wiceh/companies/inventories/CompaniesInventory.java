@@ -7,20 +7,29 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import me.wiceh.companies.Companies;
 import me.wiceh.companies.objects.Company;
 import me.wiceh.companies.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+
+import java.util.List;
+import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
 
-public class CashRegisterInventory {
+public class CompaniesInventory {
 
     private final Companies plugin;
 
-    public CashRegisterInventory(Companies plugin) {
+    public CompaniesInventory(Companies plugin) {
         this.plugin = plugin;
     }
 
-    public void open1(Player player, Company company) {
+    public void open(Player player) {
         PaginatedGui gui = Gui.paginated()
                 .title(text("Lista Aziende"))
                 .rows(4)
@@ -56,9 +65,31 @@ public class CashRegisterInventory {
         gui.setItem(34, glass);
         gui.setItem(35, glass);
 
-        // todo: loop and add all players heads
+        List<Company> companies = plugin.getCompanyUtils().getCompanies();
+        if (companies.isEmpty()) {
+            player.sendMessage("§cNon ci sono aziende.");
+            return;
+        }
+
+        for (Company c : companies) {
+            OfflinePlayer director = Bukkit.getOfflinePlayer(UUID.fromString(c.getDirector()));
+
+            ItemStack item = new ItemStack(Material.SPYGLASS);
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName("§aAzienda #" + c.getName());
+            meta.setLore(List.of(
+                    "",
+                    "§fDirettore: §7" + director.getName(),
+                    "§fDipendenti: §7" + plugin.getEmployeeUtils().getEmployees(c).size(),
+                    "§fGradi: §7" + plugin.getRoleUtils().getRoles(c).size(),
+                    "§fBilancio: §7" + c.getBalance() + "€"
+            ));
+            meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "company"), PersistentDataType.INTEGER, c.getId());
+            item.setItemMeta(meta);
+
+            gui.addItem(ItemBuilder.from(item).asGuiItem());
+        }
 
         gui.open(player);
-        plugin.getCompanyMap().put(player, company);
     }
 }

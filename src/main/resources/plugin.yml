@@ -15,3 +15,7 @@ commands:
   admincompany:
     aliases:
       - adminazienda
+  bcsign:
+    description: Imposta un cartello per l'annuncio di un'azienda
+  bcaccept:
+    description: Accetta una richiesta di annuncio

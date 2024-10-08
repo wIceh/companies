@@ -1,17 +1,17 @@
 package me.wiceh.companies.database;
 
 import me.wiceh.companies.Companies;
+import org.bukkit.Bukkit;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Database {
 
     private Connection connection;
+    private final Companies plugin;
 
     public Database(Companies plugin) {
+        this.plugin = plugin;
         try {
             this.connection = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFile().getAbsolutePath());
             plugin.getLogger().info("Connessione al database effettuata con successo.");
@@ -20,6 +20,7 @@ public class Database {
             createReceiptsTable();
             createBroadcastsLogs();
             createRolesTable();
+            createEmployeesTable();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,14 +57,33 @@ public class Database {
 
     private void createRolesTable() {
         String query = """
-            CREATE TABLE IF NOT EXISTS roles
-            (
-                company             INTEGER             NOT NULL,
-                name                VARCHAR(50)         NOT NULL,
-                "group"             VARCHAR(50)         NOT NULL,
-                type                VARCHAR(50)         NOT NULL
-            )
-            """;
+                CREATE TABLE IF NOT EXISTS roles
+                (
+                    id                  INTEGER             PRIMARY KEY,
+                    company             INTEGER             NOT NULL,
+                    name                VARCHAR(50)         NOT NULL,
+                    "group"             VARCHAR(50)         NOT NULL,
+                    type                VARCHAR(50)         NOT NULL
+                )
+                """;
+
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createEmployeesTable() {
+        String query = """
+                CREATE TABLE IF NOT EXISTS employees
+                (
+                    player              VARCHAR(36)         NOT NULL,
+                    company             INTEGER             NOT NULL,
+                    role                INTEGER             NOT NULL,
+                    when_hired          TIMESTAMP           NOT NULL
+                )
+                """;
 
         try (Statement statement = connection.createStatement()) {
             statement.execute(query);

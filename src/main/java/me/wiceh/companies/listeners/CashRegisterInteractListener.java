@@ -4,6 +4,7 @@ import me.wiceh.companies.Companies;
 import me.wiceh.companies.inventories.CashRegisterInventory;
 import me.wiceh.companies.objects.CashRegister;
 import me.wiceh.companies.objects.Company;
+import me.wiceh.companies.objects.Employee;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,10 +32,9 @@ public class CashRegisterInteractListener implements Listener {
         CashRegister cashRegister = optionalCashRegister.get();
         Company company = cashRegister.getCompany();
 
-        //String formattedCompany = plugin.getCompanyUtils().getCompany(company.getName());
-        //if (!player.hasPermission("cassa.use." + formattedCompany)) return;
-        // todo: check if player is an employee
+        Optional<Employee> optionalEmployee = plugin.getEmployeeUtils().getEmployee(company, player);
+        if (optionalEmployee.isEmpty()) return;
 
-        new CashRegisterInventory(plugin).open(player, company);
+        new CashRegisterInventory(plugin).open1(player, company);
     }
 }

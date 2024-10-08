@@ -137,15 +137,15 @@ public class ReceiptUtils {
     public void makeReceipt(Player player, Company company, Player target, String products, int price) {
         LocalDateTime dateTime = LocalDateTime.now();
         ItemStack scontrino = ItemBuilder.from(Material.STICK)
-                .name(text("§aScontrino " + company.getName()))
-                .lore(text("§7Cliente §8> §e" + target.getName()), text("§7Cassiere §8> §e" + player.getName()), text("§7Prodotti §8> §e" + products), text("§7Prezzo §8> §e" + price + "€"), text("§7Data §8> §e" + Utils.formatDate(dateTime)))
-                .model(10181)
+                .name(text("§7Scontrino Fiscale"))
+                .lore(text("§f"), text("§7Importo §8» §f" + price + "€"), text("§7Azienda §8» §f" + company.getName()), text("§7Acquirente §8» §f" + target.getName()), text("§7Data §8» §f" + Utils.formatDate(dateTime)), text("§7Prodotti §8» §f" + products))
+                .model(133)
                 .build();
 
         plugin.getReceiptUtils().addReceipt(company, target, player, products, price, Timestamp.valueOf(dateTime)).thenAccept(result -> {
             if (result) {
                 target.getInventory().addItem(scontrino);
-                Utils.sendMessage(player, Icon.ERROR_GREEN, "Scontrino stampato con successo.");
+                player.sendMessage(text("§aScontrino stampato con successo."));
                 plugin.getCompanyUtils().giveMoney(company, price);
                 // todo: take money from cashier (player)
                 return;
@@ -154,19 +154,13 @@ public class ReceiptUtils {
         });
     }
 
-    public ItemStack getReceiptItem(Receipt receipt) {
-        return ItemBuilder.from(Material.STICK)
-                .name(text("§aScontrino " + receipt.getCompany().getName()))
-                .lore(text("§7Cliente §8> §e" + receipt.getCustomer().getName()), text("§7Cassiere §8> §e" + receipt.getCashier().getName()), text("§7Prodotti §8> §e" + receipt.getProducts()), text("§7Prezzo §8> §e" + receipt.getPrice() + "€"), text("§7Data §8> §e" + Utils.formatDate(receipt.getDate())))
-                .model(10181)
-                .build();
-    }
+    public ItemStack getReceiptItem(Receipt receipt, boolean copy) {
+        String name = copy ? "§7Scontrino Fiscale §f(Copia)" : "§7Scontrino Fiscale";
 
-    public ItemStack getReceiptCopyItem(Receipt receipt) {
         return ItemBuilder.from(Material.STICK)
-                .name(text("§aScontrino " + receipt.getCompany().getName() + " §7(Copia)"))
-                .lore(text("§7Cliente §8> §e" + receipt.getCustomer().getName()), text("§7Cassiere §8> §e" + receipt.getCashier().getName()), text("§7Prodotti §8> §e" + receipt.getProducts()), text("§7Prezzo §8> §e" + receipt.getPrice() + "€"), text("§7Data §8> §e" + Utils.formatDate(receipt.getDate())))
-                .model(10181)
+                .name(text(name))
+                .lore(text("§f"), text("§7Importo §8» §f" + receipt.getPrice() + "€"), text("§7Azienda §8» §f" + receipt.getCompany().getName()), text("§7Acquirente §8» §f" + receipt.getCustomer().getName()), text("§7Data §8» §f" + Utils.formatDate(receipt.getDate())), text("§7Prodotti §8» §f" + receipt.getProducts()))
+                .model(133)
                 .build();
     }
 }

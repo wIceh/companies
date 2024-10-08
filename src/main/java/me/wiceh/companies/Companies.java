@@ -1,18 +1,15 @@
 package me.wiceh.companies;
 
-import me.wiceh.companies.commands.AdminCompanyCommand;
-import me.wiceh.companies.commands.CompanyCommand;
-import me.wiceh.companies.commands.CashRegisterCommand;
+import me.wiceh.companies.commands.*;
 import me.wiceh.companies.database.Database;
+import me.wiceh.companies.listeners.BcsignInteractListener;
 import me.wiceh.companies.listeners.CashRegisterBreakListener;
 import me.wiceh.companies.listeners.CashRegisterInteractListener;
 import me.wiceh.companies.listeners.InventoryInteractListener;
+import me.wiceh.companies.objects.Broadcast;
 import me.wiceh.companies.objects.Company;
-import me.wiceh.companies.utils.RoleUtils;
-import me.wiceh.companies.utils.BroadcastUtils;
-import me.wiceh.companies.utils.CashRegisterUtils;
-import me.wiceh.companies.utils.CompanyUtils;
-import me.wiceh.companies.utils.ReceiptUtils;
+import me.wiceh.companies.objects.Role;
+import me.wiceh.companies.utils.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -30,7 +27,10 @@ public final class Companies extends JavaPlugin {
     private ReceiptUtils receiptUtils;
     private BroadcastUtils broadcastUtils;
     private Map<Player, Company> companyMap;
+    private Map<Player, Role> hireRequest;
+    private Map<Player, Broadcast> broadcastMap;
     private RoleUtils roleUtils;
+    private EmployeeUtils employeeUtils;
 
     @Override
     public void onEnable() {
@@ -44,14 +44,20 @@ public final class Companies extends JavaPlugin {
         this.receiptUtils = new ReceiptUtils(this);
         this.broadcastUtils = new BroadcastUtils(this);
         this.companyMap = new HashMap<>();
+        this.hireRequest = new HashMap<>();
         this.roleUtils = new RoleUtils(this);
+        this.employeeUtils = new EmployeeUtils(this);
+        this.broadcastMap = new HashMap<>();
 
         getCommand("company").setExecutor(new CompanyCommand(this));
         getCommand("admincompany").setExecutor(new AdminCompanyCommand(this));
         getCommand("cashregister").setExecutor(new CashRegisterCommand(this));
+        getCommand("bcsign").setExecutor(new BcsignCommand(this));
+        getCommand("bcaccept").setExecutor(new BcAcceptCommand(this));
         getServer().getPluginManager().registerEvents(new CashRegisterInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new CashRegisterBreakListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryInteractListener(this), this);
+        getServer().getPluginManager().registerEvents(new BcsignInteractListener(this), this);
     }
 
     @Override
@@ -98,7 +104,19 @@ public final class Companies extends JavaPlugin {
         return companyMap;
     }
 
+    public Map<Player, Role> getHireRequest() {
+        return hireRequest;
+    }
+
     public RoleUtils getRoleUtils() {
         return roleUtils;
+    }
+
+    public EmployeeUtils getEmployeeUtils() {
+        return employeeUtils;
+    }
+
+    public Map<Player, Broadcast> getBroadcastMap() {
+        return broadcastMap;
     }
 }

@@ -4,16 +4,22 @@ import me.wiceh.companies.constants.RoleType;
 
 public class Role {
 
+    private final int id;
     private Company company;
     private String name;
     private String group;
     private RoleType type;
 
-    public Role(String name, String group, Company company, RoleType type) {
+    public Role(int id, String name, String group, Company company, RoleType type) {
+        this.id = id;
         this.name = name;
         this.group = group;
         this.company = company;
         this.type = type;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public Company getCompany() {

@@ -23,4 +23,11 @@ public class ItemUtils {
 
         return item.build();
     }
+
+    public static ItemStack getInvisibleItem() {
+        ItemBuilder item = ItemBuilder.from(Material.PAPER)
+                .model(4);
+
+        return item.build();
+    }
 }

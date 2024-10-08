@@ -38,10 +38,8 @@ public class InsertPriceInventory {
                     return List.of(AnvilGUI.ResponseAction.close());
                 })
                 .text("Prezzo")
-                .title("§fInserisci il prezzo")
-                .itemLeft(ItemUtils.getFiller())
-                .itemRight(ItemUtils.getFiller())
-                .itemOutput(ItemUtils.getOutputItem())
+                .title("Inserisci il prezzo")
+                .itemLeft(ItemUtils.getInvisibleItem())
                 .plugin(plugin)
                 .open(player);
     }
